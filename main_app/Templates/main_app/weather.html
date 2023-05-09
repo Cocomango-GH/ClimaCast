@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Weather for {{ weather_data.name }}</title>
+</head>
+<body>
+    <h1>Weather for {{ weather_data.name }}</h1>
+    <p>Temperature: {{ weather_data.main.temp }} K</p>
+    <p>Weather: {{ weather_data.weather.0.main }}</p>
+    <p>Description: {{ weather_data.weather.0.description }}</p>
+</body>
+</html>
+{% endblock %}
