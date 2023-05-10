@@ -12,6 +12,7 @@ import os
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 import requests
+from .forms import LocationForm
 
 
 def home(request):
@@ -98,26 +99,44 @@ def location_delete(request, pk):
     return redirect('home')
 
 
+
+
+
 @login_required
 def forecast(request):
-    user_weather = Weather.objects.filter(user=request.user)
-    forecasts = []
-    for weather in user_weather:
-        location = weather.location.city
-        api_key = os.environ.get('OPENWEATHER_API_KEY')
-        url = f'http://api.openweathermap.org/data/2.5/weather?q={location}&units=metric&appid={api_key}'
-        response = requests.get(url)
-        if response.status_code == 200:
-            data = response.json()
-            forecast = {}
-            forecast['location'] = data['name']
-            forecast['description'] = data['weather'][0]['description']
-            forecast['temperature'] = data['main']['temp']
-            forecast['humidity'] = data['main']['humidity']
-            forecast['wind_speed'] = data['wind']['speed']
-            forecasts.append(forecast)
+    # get user's IP address
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
 
-    context = {'forecasts': forecasts}
+    # use IP address to get location
+    url = f'http://ip-api.com/json/{ip}'
+    response = requests.get(url)
+    data = response.json()
+    city = data.get('city', '')
+    country_code = data.get('countryCode', '')
+    location = f"{city},{country_code}"
+
+    # use location to get weather data
+    api_key = os.environ.get('OPENWEATHER_API_KEY')
+    url = f'http://api.openweathermap.org/data/2.5/weather?q={location}&units=metric&appid={api_key}'
+    response = requests.get(url)
+    if response.status_code == 200:
+        data = response.json()
+        forecast = {}
+        forecast['location'] = data['name']
+        forecast['description'] = data['weather'][0]['description']
+        forecast['temperature'] = data['main']['temp']
+        forecast['humidity'] = data['main']['humidity']
+        forecast['wind_speed'] = data['wind']['speed']
+
+    context = {'forecast': forecast}
     return render(request, 'weather/forecast.html', context)
+
+
+
+
 
 
