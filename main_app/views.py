@@ -100,11 +100,10 @@ def location_delete(request, pk):
 
 @login_required
 def forecast(request):
-    user_locations = Location.objects.filter(user=request.user)
-     # Get the weather entries for the currently logged-in user
-    weather_entries = Weather.objects.filter(user=request.user)
+    user_weather = Weather.objects.filter(user=request.user)
     forecasts = []
-    for location in user_locations:
+    for weather in user_weather:
+        location = weather.location.city
         api_key = os.environ.get('OPENWEATHER_API_KEY')
         url = f'http://api.openweathermap.org/data/2.5/weather?q={location}&units=metric&appid={api_key}'
         response = requests.get(url)
@@ -118,6 +117,7 @@ def forecast(request):
             forecast['wind_speed'] = data['wind']['speed']
             forecasts.append(forecast)
 
-    context = {'weather_entries': weather_entries}
+    context = {'forecasts': forecasts}
     return render(request, 'weather/forecast.html', context)
+
 
