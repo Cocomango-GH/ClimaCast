@@ -1,16 +1,15 @@
 {% extends 'base.html' %}
-{% block content %}
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>ClimaCast Home</title>
-</head>
-<body>
-    <h1>Welcome to ClimaCast!</h1>
-    <p>This is the home page of the ClimaCast weather app.</p>
-</body>
-</html>
+{% block content %}
+  <h1>Welcome to ClimaCast!</h1>
+  <p>This is the home page of the ClimaCast weather app.</p>
+
+  <form method="post">
+    {% csrf_token %}
+    <label for="location">Enter a city:</label>
+    <input type="text" name="location" id="location" required>
+    <button type="submit">Get Weather</button>
+  </form>
 
 
 {% endblock %}

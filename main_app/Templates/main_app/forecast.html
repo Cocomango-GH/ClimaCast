@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h1>Weather Forecast</h1>
+  <h1>Weather Forecast for {{ location }}</h1>
   <table>
     <thead>
       <tr>
-        <th>Location</th>
+        <th>Date</th>
         <th>Description</th>
         <th>Temperature (°C)</th>
         <th>Humidity (%)</th>
@@ -15,7 +15,7 @@
     <tbody>
       {% for forecast in forecasts %}
         <tr>
-          <td>{{ forecast.location }}</td>
+          <td>{{ forecast.date }}</td>
           <td>{{ forecast.description }}</td>
           <td>{{ forecast.temperature }}</td>
           <td>{{ forecast.humidity }}</td>
@@ -25,3 +25,4 @@
     </tbody>
   </table>
 {% endblock %}
+

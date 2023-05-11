@@ -1,16 +1,33 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Weather for {{ weather_data.name }}</title>
-</head>
-<body>
-    <h1>Weather for {{ weather_data.name }}</h1>
-    <p>Temperature: {{ weather_data.main.temp }} K</p>
-    <p>Weather: {{ weather_data.weather.0.main }}</p>
-    <p>Description: {{ weather_data.weather.0.description }}</p>
-</body>
-</html>
+<h1>Add a Location</h1>
+<form method="POST">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Add Location</button>
+</form>
+  <h1>Weather Forecast</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>Location</th>
+        <th>Description</th>
+        <th>Temperature (°C)</th>
+        <th>Humidity (%)</th>
+        <th>Wind Speed (m/s)</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for forecast in forecasts %}
+        <tr>
+          <td>{{ forecast.location }}</td>
+          <td>{{ forecast.description }}</td>
+          <td>{{ forecast.temperature }}</td>
+          <td>{{ forecast.humidity }}</td>
+          <td>{{ forecast.wind_speed }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 {% endblock %}
