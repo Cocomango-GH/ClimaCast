@@ -16,57 +16,14 @@ from .forms import LocationForm, WeatherForm
 from django.db import models
 from datetime import datetime, timedelta
 
-def index(request):
-    API_KEY = os.getenv('API_KEY')
-    weather_url = f'http://api.openweathermap.org/data/2.5/weather?q={{city}}&appid={API_KEY}'
-    forecast_url = f'http://api.openweathermap.org/data/2.5/oncall?lat={{lat}}&lon={{lon}}&exclude=current,minutely,hourly,alerts&appid={API_KEY}'
-    if request.method == 'POST':
-        city = request.POST.get('city')
-        if city:
-            weather_data, daily_forecasts = fetch_weather_and_forecast(city, API_KEY, weather_url, forecast_url)
-        else:
-            weather_data, daily_forecasts = None, None 
-    context = {
-        "weather_data": weather_data,
-        "daily_forecasts": daily_forecasts,     
-    }
-    return render(request, "weather/index.html", context)
 
-
-def fetch_weather_and_forecast(city, api_key, weather_url, forecast_url):
-    response = requests.get(weather_url.format(city, api_key)).json()
-    lat, lon = response['coord']['lat'], response['coord']['lat']
-    forecast_response = requests.get(forecast_url.format)[lat, lon, api_key].json()
-
-    weather_data = {
-        "city": city,
-        "temperature": round(response['main']['temp'] - 273.15, 2),
-        "description": response['weather'][0]['description'],
-        "icon": response['weather'][0]['icon']
-    }
-    daily_forecasts = []
-    for daily_data in forecast_response['daily'][:5]:
-        daily_forecasts.append({
-            "day": datetime.datetime.fromtimestamp(daily_data['dt']).strftime("%A"),
-            "min_temp": round(daily_data['temp']['min'] - 273.15, 2),
-            "max_temp": round(daily_data['temp']['max'] - 273.15, 2),
-            "description": daily_data['weather'][0]['description'],
-            "icon": daily_data['weather'][0]['icon']
-        })
-    return weather_data, daily_forecasts
 
 def home(request):
     weather_data = {}
-    # api_key = os.environ.get('API_KEY')
-   
-
     if request.method == 'POST':
-        city = request.POST
-    else: 
-        return render(request, "Weather/index.html")
-        form = WeatherForm(request.POST)
         location = request.POST.get('location')
-        
+        api_key = os.environ.get('OPENWEATHER_API_KEY')
+        url = f'http://api.openweathermap.org/data/2.5/weather?q={location}&units=metric&appid={api_key}'
         response = requests.get(url)
         if response.status_code == 200:
             data = response.json()
@@ -75,10 +32,24 @@ def home(request):
             weather_data['temperature'] = data['main']['temp']
             weather_data['humidity'] = data['main']['humidity']
             weather_data['wind_speed'] = data['wind']['speed']
+            
+            # Create a new instance of the Weather model and save the weather data
+            Weather.objects.create(
+                user=request.user,
+                location=location,
+                temperature=weather_data['temperature'],
+                humidity=weather_data['humidity'],
+                wind_speed=weather_data['wind_speed']
+            )
+            
+            # Redirect to the forecast page with location data in the URL
+            return redirect(f'/forecast/?location={location}')
         else:
             weather_data['error'] = f'Error getting weather data for {location}. Please try again.'
 
     return render(request, 'home.html', {'weather_data': weather_data})
+
+
 
 
 def about(request):
@@ -158,7 +129,7 @@ def forecast(request):
     forecasts = []
     for weather in user_weather:
         location = weather.location
-        api_key = os.environ.get('API_KEY')
+        API_KEY = os.environ.get('API_KEY')
         url = f"http://api.openweathermap.org/data/2.5/weather?q={location}&units=metric&appid={api_key}"
         response = requests.get(url)
         if response.status_code == 200:

@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-
+from .views import home, forecast
 
 
 urlpatterns = [
@@ -14,4 +14,5 @@ urlpatterns = [
     path('location/create/', views.location_create, name='location_create'),
     path('location/<int:pk>/delete/', views.location_delete, name='location_delete'),
     path('forecast/', views.forecast, name='forecast'),
+    path('forecast/', forecast, name='forecast'),
 ]
