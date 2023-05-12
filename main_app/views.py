@@ -173,17 +173,6 @@ def location_delete(request, pk):
         location.delete()
     return redirect('home')
 
-@login_required
-def location_edit(request, pk):
-    loc = get_object_or_404(location, pk=pk)
-    if request.method == 'POST':
-        form = LocationForm(request.POST, instance=loc)
-        if form.is_valid():
-            form.save()
-            return redirect('location_list')
-    else:
-        form = LocationForm(instance=loc)
-    return render(request, 'location_edit.html', {'form': form})
 
 # @login_required
 # def forecast(request):

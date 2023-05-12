@@ -2,7 +2,6 @@
 
 {% block content %}
     <h1>Welcome to ClimaCast!</h1>
-    <h2>Your location: {{ location }}</h2>
     <p>Enter a city to get its weather forecast:</p>
     <form method="GET" action="{% url 'forecast' %}">
         <input type="text" name="city">
