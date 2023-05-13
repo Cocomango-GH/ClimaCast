@@ -8,10 +8,3 @@ class LocationForm(forms.ModelForm):
         model = Location
         fields = ('city',)
 
-
-# class WeatherForm(forms.ModelForm):
-#     class Meta:
-#         model = Weather
-#         fields = ['name', 'latitude', 'longitude', 'country', 'location']
-
-

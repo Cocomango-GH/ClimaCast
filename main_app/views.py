@@ -16,65 +16,37 @@ from django.db import models
 from datetime import datetime, timedelta
 from .forms import LocationForm
 
-# def home(request):
-#     if request.method == 'POST':
-#         return get_weather(request)
-#     else:
-#         return render(request, 'home.html')
-
-@login_required
 def home(request):
-    if request.method == 'POST':
-        form = LocationForm(request.POST)
-        if form.is_valid():
-            location = form.cleaned_data['location']
-            api_key = os.environ['API_KEY']
-            url = f'http://api.openweathermap.org/data/2.5/weather?q={location}&units=metric&appid={api_key}'
-            response = requests.get(url)
-            if response.status_code == 200:
-                data = response.json()
-                weather_data = {
-                    'date': datetime.now(),
-                    'location': data['name'],
-                    'description': data['weather'][0]['description'],
-                    'temperature': data['main']['temp'],
-                    'humidity': data['main']['humidity'],
-                    'wind_speed': data['wind']['speed']
-                }
-                Location.objects.create(
-                    user=request.user,
-                    location=location,
-                    temperature=weather_data['temperature'],
-                    humidity=weather_data['humidity'],
-                    wind_speed=weather_data['wind_speed'],
-                    last_updated=weather_data['date']
-                )
-                return redirect('forecast', location=location)
-            else:
-                form.add_error('location', f'Error getting weather data for {location}. Please try again.')
-    else:
-        form = LocationForm()
+  
+    return render(request, 'home.html')
 
-    return render(request, 'home.html', {'form': form})
-
-
-
+## added newly to see if i could fix the error and render data like =before 
 def get_weather(request):
+    print("get_weather function called")
     weather_data = {}
     location = request.POST.get('location')
-    api_key = os.environ['API_KEY']
-    url = f'http://api.openweathermap.org/data/2.5/weather?q={location}&units=metric&appid={api_key}'
-    response = requests.get(url)
-    if response.status_code == 200:
-        data = response.json()
-        weather_data['date'] = datetime.now()
-        weather_data['location'] = data['name']
-        weather_data['description'] = data['weather'][0]['description']
-        weather_data['temperature'] = data['main']['temp']
-        weather_data['humidity'] = data['main']['humidity']
-        weather_data['wind_speed'] = data['wind']['speed']
-    print(weather_data)
+    user_location = Location.objects.filter(location_name=location, user=request.user).first()
+    if user_location:
+        api_key = os.environ['API_KEY']
+        url = f'http://api.openweathermap.org/data/2.5/weather?q={location}&units=metric&appid={api_key}'
+        response = requests.get(url)
+        if response.status_code == 200:
+            data = response.json()
+            weather_data['date'] = datetime.now()
+            weather_data['location'] = data['name']
+            weather_data['description'] = data['weather'][0]['description']
+            weather_data['temperature'] = data['main']['temp']
+            weather_data['humidity'] = data['main']['humidity']
+            weather_data['wind_speed'] = data['wind']['speed']
+            print(weather_data)
+    #     else:
+    #         print(f"API request failed with status code {response.status_code}: {response.content}")
+    # else:
+    #     print("User's location not found in database")
     return render(request, 'forecast.html', {'weather_data': weather_data})
+
+
+
 
 
 # def home(request):
@@ -266,7 +238,7 @@ def location_delete(request, pk):
 def forecast(request):
     if request.method == 'POST':
         city = request.POST.get('city')
-        user_weather = Location.objects.filter(user=request.user, location=weather_data)
+        user_weather = Location.objects.filter(user=request.user, location=city)
         forecasts = []
         for weather in user_weather:
             location = weather.location
@@ -289,3 +261,5 @@ def forecast(request):
 
         context = {'forecasts': forecasts}
         return render(request, 'forecast.html', context)
+    else:
+        return render(request, 'forecast.html', {})

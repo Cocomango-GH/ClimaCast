@@ -4,7 +4,6 @@ from datetime import date
 from django.contrib.auth.models import User
 
 
-#new code 
 class Location(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='locations')
     location = models.CharField(max_length=50)
@@ -17,14 +16,3 @@ class Location(models.Model):
     def __str__(self):
         return self.location
 
-
-# class Weather(models.Model):
-#     name = models.CharField(max_length=255)
-#     latitude = models.FloatField()
-#     longitude = models.FloatField()
-#     country = models.CharField(max_length=255)
-#     location = models.ForeignKey(Location, on_delete=models.CASCADE)
-#     user = models.ForeignKey(User, on_delete=models.CASCADE)
-
-#     def __str__(self):
-#         return self.name
