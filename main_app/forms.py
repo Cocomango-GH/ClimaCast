@@ -13,3 +13,5 @@ class LocationForm(forms.ModelForm):
 #     class Meta:
 #         model = Weather
 #         fields = ['name', 'latitude', 'longitude', 'country', 'location']
+
+

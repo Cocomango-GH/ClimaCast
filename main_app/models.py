@@ -3,6 +3,7 @@ from django.urls import reverse
 from datetime import date
 from django.contrib.auth.models import User
 
+
 #new code 
 class Location(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='locations')

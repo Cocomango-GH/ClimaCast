@@ -16,12 +16,46 @@ from django.db import models
 from datetime import datetime, timedelta
 from .forms import LocationForm
 
+# def home(request):
+#     if request.method == 'POST':
+#         return get_weather(request)
+#     else:
+#         return render(request, 'home.html')
+
+@login_required
 def home(request):
     if request.method == 'POST':
-        return get_weather(request)
+        form = LocationForm(request.POST)
+        if form.is_valid():
+            location = form.cleaned_data['location']
+            api_key = os.environ['API_KEY']
+            url = f'http://api.openweathermap.org/data/2.5/weather?q={location}&units=metric&appid={api_key}'
+            response = requests.get(url)
+            if response.status_code == 200:
+                data = response.json()
+                weather_data = {
+                    'date': datetime.now(),
+                    'location': data['name'],
+                    'description': data['weather'][0]['description'],
+                    'temperature': data['main']['temp'],
+                    'humidity': data['main']['humidity'],
+                    'wind_speed': data['wind']['speed']
+                }
+                Location.objects.create(
+                    user=request.user,
+                    location=location,
+                    temperature=weather_data['temperature'],
+                    humidity=weather_data['humidity'],
+                    wind_speed=weather_data['wind_speed'],
+                    last_updated=weather_data['date']
+                )
+                return redirect('forecast', location=location)
+            else:
+                form.add_error('location', f'Error getting weather data for {location}. Please try again.')
     else:
-        return render(request, 'home.html')
+        form = LocationForm()
 
+    return render(request, 'home.html', {'form': form})
 
 
 
@@ -174,6 +208,7 @@ def location_delete(request, pk):
     return redirect('home')
 
 
+
 # @login_required
 # def forecast(request):
 #     user_weather = location.objects.filter(user=request.user)
@@ -198,30 +233,59 @@ def location_delete(request, pk):
 #     context = {'forecasts': forecasts}
 #     return render(request, 'main_app/forecast.html', context)
 
+# @login_required
+# def forecast(request):
+#     if request.method == 'POST':
+#       city = request.POST.get('city')
+#       user_weather = Location.objects.filter(user=request.user, location=city)
+#       weather_data = []
+#       forecasts = []
+#     for weather in user_weather:
+#         location = weather.location
+#         api_key = os.environ.get('API_KEY')
+#         url = f"http://api.openweathermap.org/data/2.5/weather?q={location}&units=metric&appid={api_key}"
+#         forecast_url = f"http://api.openweathermap.org/data/2.5/forecast?id=524901&appid={api_key}"
+#         response = requests.get(url)
+#         if response.status_code == 200:
+#             data = response.json()
+#             forecast = {}
+#             forecast['date'] = data['date']
+#             forecast['location'] = data['name']
+#             forecast['description'] = data['weather'][0]['description']
+#             forecast['temperature'] = data['main']['temp']
+#             forecast['humidity'] = data['main']['humidity']
+#             forecast['wind_speed'] = data['wind']['speed']
+#             forecasts.append(forecast)
+#             # Convert temperature from Celsius to Fahrenheit
+#             forecast['temperature_f'] = (forecast['temperature'] * 1.8) + 32
+
+#     context = {'forecasts': forecasts}
+#     return render(request, 'forecast.html', context)
+
 @login_required
 def forecast(request):
-    user_weather = location.objects.filter(user=request.user)
-    weather_data = []
-    forecasts = []
-    for weather in user_weather:
-        location = weather.location
-        api_key = os.environ.get('API_KEY')
-        url = f"http://api.openweathermap.org/data/2.5/weather?q={location}&units=metric&appid={api_key}"
-        forecast_url = f"http://api.openweathermap.org/data/2.5/forecast?id=524901&appid={api_key}"
-        response = requests.get(url)
-        if response.status_code == 200:
-            data = response.json()
-            forecast = {}
-            # forecast['date'] = data['date']
-            forecast['location'] = data['name']
-            forecast['description'] = data['weather'][0]['description']
-            forecast['temperature'] = data['main']['temp']
-            forecast['humidity'] = data['main']['humidity']
-            forecast['wind_speed'] = data['wind']['speed']
-            forecasts.append(forecast)
-            # Convert temperature from Celsius to Fahrenheit
-            forecast['temperature_f'] = (forecast['temperature'] * 1.8) + 32
+    if request.method == 'POST':
+        city = request.POST.get('city')
+        user_weather = Location.objects.filter(user=request.user, location=weather_data)
+        forecasts = []
+        for weather in user_weather:
+            location = weather.location
+            api_key = os.environ.get('API_KEY')
+            url = f"http://api.openweathermap.org/data/2.5/weather?q={location}&units=metric&appid={api_key}"
+            forecast_url = f"http://api.openweathermap.org/data/2.5/forecast?id=524901&appid={api_key}"
+            response = requests.get(url)
+            if response.status_code == 200:
+                data = response.json()
+                forecast = {}
+                forecast['date'] = datetime.now()
+                forecast['location'] = data['name']
+                forecast['description'] = data['weather'][0]['description']
+                forecast['temperature'] = data['main']['temp']
+                forecast['humidity'] = data['main']['humidity']
+                forecast['wind_speed'] = data['wind']['speed']
+                # Convert temperature from Celsius to Fahrenheit
+                forecast['temperature_f'] = (forecast['temperature'] * 1.8) + 32
+                forecasts.append(forecast)
 
-    context = {'forecasts': forecasts}
-    return render(request, 'main_app/forecast.html', context)
-
+        context = {'forecasts': forecasts}
+        return render(request, 'forecast.html', context)

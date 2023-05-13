@@ -1,5 +1,20 @@
+
+img of climast here 
+![ClimaCast]()
+ Built by:[Sasha Amah](https://www.linkedin.com/in/sashaamah) 
+
 # ClimaCast
 tech used badges here 
+[maintained](https://img.shields.io/badge/Maintained%3F-yes-green.svg) [Maintainer]() [Askme](https://img.shields.io/badge/Ask%20me-anything-1abc9c.svg)
+[Trello](https://img.shields.io/badge/Trello-0052CC?style=for-the-badge&logo=trello&logoColor=white)
+[Miro](https://img.shields.io/badge/Miro-050038?style=for-the-badge&logo=Miro&logoColor=white)
+[Git](https://img.shields.io/badge/GIT-E44C30?style=for-the-badge&logo=git&logoColor=white)
+[GITHUB](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)
+[VISUALCODESTUDIO]()
+[HEROKU](https://img.shields.io/badge/Heroku-430098?style=for-the-badge&logo=heroku&logoColor=white)
+[PYTHON](http://ForTheBadge.com/images/badges/made-with-python.svg)
+[Django]()
+[HTML](https://img.shields.io/badge/HTML-239120?style=for-the-badge&logo=html5&logoColor=white)
 image logo
 
 Description

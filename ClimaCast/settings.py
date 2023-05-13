@@ -34,6 +34,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    'bootstrap5',
     'main_app',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -58,7 +59,10 @@ ROOT_URLCONF = 'ClimaCast.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            #chat saidputthis to acesse forecast.html
+             os.path.join(BASE_DIR, 'main_app', 'templates'),
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
