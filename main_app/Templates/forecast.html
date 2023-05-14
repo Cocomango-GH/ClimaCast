@@ -1,16 +1,7 @@
-{% extends 'base.html' %}
+<!-- {% extends 'base.html' %}
 
 {% block content %}
-<h1>Welcome to ClimaCast!</h1>
-<p>This is the home page of the ClimaCast weather app.</p>
-
-<form method="post">
-  {% csrf_token %}
-  <label for="location">Enter a city:</label>
-  <input type="text" name="location" id="location" required>
-  <button type="submit">Get Weather</button>
-</form>
-
+<h1>Forecast page!</h1>
 {% if weather_data %}
   <h1>Weather Forecast for {{ weather_data.location }}</h1>
   <table>
@@ -25,26 +16,27 @@
     </tr>
     </thead>
     <tbody>
+
       {% for forecast in weather_data.forecasts %}
-        <!-- <tr>
+        <tr>
           <td>date: {{ forecast.date }}</td>
           <td>Description: {{ forecast.description }}</td>
           <td>Temperature: {{ forecast.temperature }}</td>
           <td>Humiidity: {{ forecast.humidity }}</td>
           <td>Wind Speed:{{ forecast.wind_speed }}</td>
           <td>
-            <form method="post" action="{% url 'update_forecast' location=weather_data.location date=forecast.date %}">
+            <form method="post" action="{% url 'location_update' location=weather_data.location date=forecast.date %}">
               {% csrf_token %}
               <button type="submit">Update</button>
             </form>
-            <form method="post" action="{% url 'delete_forecast' location=weather_data.location date=forecast.date %}">
+            <form method="post" action="{% url 'location_delete' location=weather_data.location date=forecast.date %}">
               {% csrf_token %}
               <button type="submit">Delete</button>
             </form>
           </td>
-        </tr> -->
+        </tr>
       {% endfor %}
     </tbody>
   </table>
 {% endif %}
-{% endblock %}
+{% endblock %} -->

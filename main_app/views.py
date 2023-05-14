@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import DetailView
-# from django.http import HttpResponse
+from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
@@ -13,128 +13,39 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 import requests
 from django.db import models
-from datetime import datetime, timedelta
+from datetime import datetime
 from .forms import LocationForm
 
-def home(request):
-  
-    return render(request, 'home.html')
 
-## added newly to see if i could fix the error and render data like =before 
-def get_weather(request):
-    print("get_weather function called")
+#new code 
+#path('', views.home, name='home'),
+def home(request):
     weather_data = {}
-    location = request.POST.get('location')
-    user_location = Location.objects.filter(location_name=location, user=request.user).first()
-    if user_location:
+    if request.method == 'POST':
+        location = request.POST.get('location')
         api_key = os.environ['API_KEY']
         url = f'http://api.openweathermap.org/data/2.5/weather?q={location}&units=metric&appid={api_key}'
         response = requests.get(url)
         if response.status_code == 200:
             data = response.json()
-            weather_data['date'] = datetime.now()
             weather_data['location'] = data['name']
             weather_data['description'] = data['weather'][0]['description']
             weather_data['temperature'] = data['main']['temp']
             weather_data['humidity'] = data['main']['humidity']
             weather_data['wind_speed'] = data['wind']['speed']
             print(weather_data)
-    #     else:
-    #         print(f"API request failed with status code {response.status_code}: {response.content}")
-    # else:
-    #     print("User's location not found in database")
-    return render(request, 'forecast.html', {'weather_data': weather_data})
-
-
-
-
-
-# def home(request):
-#     weather_data = {}
-#     if request.method == 'POST':
-#         location = request.POST.get('location')
-#         api_key = os.environ['API_KEY']
-#         url = f'http://api.openweathermap.org/data/2.5/weather?q={{location}}&units=metric&appid={api_key}'
-#         response = requests.get(url)
-#         if response.status_code == 200:
-#             data = response.json()
-#             weather_data['location'] = data['name']
-#             weather_data['description'] = data['weather'][0]['description']
-#             weather_data['temperature'] = data['main']['temp']
-#             weather_data['humidity'] = data['main']['humidity']
-#             weather_data['wind_speed'] = data['wind']['speed']
-#         print(weather_data)
-          
-#         location.objects.create(
-#                 user=request.user,
-#                 location=location,
-#                 temperature=weather_data['temperature'],
-#                 humidity=weather_data['humidity'],
-#                 wind_speed=weather_data['wind_speed']
-#             )
+            # Save the weather data to the Location model
+            location = Location.objects.create(user=request.user, location=location, temperature=weather_data['temperature'], humidity=weather_data['humidity'], wind_speed=weather_data['wind_speed'], last_updated=datetime.now())
             
-#             # Redirect to the forecast page with location data in the URL
-#         # return redirect(f'/forecast/?location={location}')
-#         # else:
-#         #     weather_data['error'] = f'Error getting weather data for {location}. Please try again.'
+            # Redirect to the forecast page with location data in the URL
+            # return redirect(f'/home/{location.id}/')
+        else:
+            weather_data['error'] = f'Error getting weather data for {location}. Please try again.'
 
-#         return render(request, 'forecast.html', {'weather_data': weather_data})
-#new code 
-# def home(request):
-#     weather_data = {}
-#     if request.method == 'POST':
-#         location = request.POST.get('location')
-#         api_key = os.environ['API_KEY']
-#         url = f'http://api.openweathermap.org/data/2.5/weather?q={location}&units=metric&appid={api_key}'
-#         response = requests.get(url)
-#         if response.status_code == 200:
-#             data = response.json()
-#             weather_data['location'] = data['name']
-#             weather_data['description'] = data['weather'][0]['description']
-#             weather_data['temperature'] = data['main']['temp']
-#             weather_data['humidity'] = data['main']['humidity']
-#             weather_data['wind_speed'] = data['wind']['speed']
-            
-#             # Save the weather data to the Location model
-#             location = Location.objects.create(user=request.user, location=location, temperature=weather_data['temperature'], humidity=weather_data['humidity'], wind_speed=weather_data['wind_speed'], last_updated=datetime.now())
-            
-#             # Redirect to the forecast page with location data in the URL
-#             return redirect(f'/forecast/{location.id}/')
-#         else:
-#             weather_data['error'] = f'Error getting weather data for {location}. Please try again.'
-
-#     return render(request, 'forecast.html', {'weather_data': weather_data})
-
-
-
-
+    return render(request, 'home.html', {'weather_data': weather_data})
 
 def about(request):
     return render(request, 'about.html')
-
-
-
-# class WeatherCreate(LoginRequiredMixin, CreateView):
-#     model = Weather
-#     fields = ['date', 'precipitation_chance', 'temperature', 'humidity', 'wind_speed']
-
-#     def form_valid(self, form):
-#         form.instance.user = self.request.user
-#         return super().form_valid(form)
-
-
-# class WeatherUpdate(LoginRequiredMixin, UpdateView):
-#     model = Weather
-#     fields = ['date', 'precipitation_chance', 'temperature', 'humidity', 'wind_speed']
-
-
-# class WeatherDelete(LoginRequiredMixin, DeleteView):
-#     model = Weather
-#     success_url = '/weather/'
-
-  
-# class WeatherDetail(LoginRequiredMixin, DetailView):
-#     model = Weather
 
 
 def signup(request):
@@ -156,6 +67,33 @@ def signup(request):
     context = {'form': form, 'error_message': error_message}
     return render(request, 'registration/signup.html', context)
 
+@login_required
+def forecast(request):
+    if request.method == 'POST':
+        location = request.POST.get('location')
+        user_weather = Location.objects.filter(user=request.user, location=location)
+
+        forecasts = []
+        for weather in user_weather:
+            location = weather.location
+            api_key = os.environ.get('API_KEY')
+            url = f"http://api.openweathermap.org/data/2.5/weather?q={location}&units=metric&appid={api_key}"
+            response = requests.get(url)
+            if response.status_code == 200:
+                data = response.json()
+                forecast = {}
+                forecast['date'] = datetime.now()
+                forecast['location'] = data['name']
+                forecast['description'] = data['weather'][0]['description']
+                forecast['temperature'] = data['main']['temp']
+                forecast['humidity'] = data['main']['humidity']
+                forecast['wind_speed'] = data['wind']['speed']
+                # Convert temperature from Celsius to Fahrenheit
+                forecast['temperature_f'] = (forecast['temperature'] * 1.8) + 32
+                forecasts.append(forecast)
+
+        context = {'forecasts': forecasts}
+    return render(request, 'home.html', context)
 
 
 @login_required
@@ -178,88 +116,3 @@ def location_delete(request, pk):
     if request.user == location.user:
         location.delete()
     return redirect('home')
-
-
-
-# @login_required
-# def forecast(request):
-#     user_weather = location.objects.filter(user=request.user)
-#     weather_data = []
-#     forecasts = []
-#     for weather in user_weather:
-#         location = weather.location
-#         API_KEY = os.environ.get('API_KEY')
-#         url = f"http://api.openweathermap.org/data/2.5/weather?q={location}&units=metric&appid={api_key}"
-#         forecast_url = f"http://api.openweathermap.org/data/2.5/forecast?id=524901&appid={api_key}"
-#         response = requests.get(url)
-#         if response.status_code == 200:
-#             data = response.json()
-#             forecast = {}
-#             forecast['location'] = data['name']
-#             forecast['description'] = data['weather'][0]['description']
-#             forecast['temperature'] = data['main']['temp']
-#             forecast['humidity'] = data['main']['humidity']
-#             forecast['wind_speed'] = data['wind']['speed']
-#             forecasts.append(forecast)
-
-#     context = {'forecasts': forecasts}
-#     return render(request, 'main_app/forecast.html', context)
-
-# @login_required
-# def forecast(request):
-#     if request.method == 'POST':
-#       city = request.POST.get('city')
-#       user_weather = Location.objects.filter(user=request.user, location=city)
-#       weather_data = []
-#       forecasts = []
-#     for weather in user_weather:
-#         location = weather.location
-#         api_key = os.environ.get('API_KEY')
-#         url = f"http://api.openweathermap.org/data/2.5/weather?q={location}&units=metric&appid={api_key}"
-#         forecast_url = f"http://api.openweathermap.org/data/2.5/forecast?id=524901&appid={api_key}"
-#         response = requests.get(url)
-#         if response.status_code == 200:
-#             data = response.json()
-#             forecast = {}
-#             forecast['date'] = data['date']
-#             forecast['location'] = data['name']
-#             forecast['description'] = data['weather'][0]['description']
-#             forecast['temperature'] = data['main']['temp']
-#             forecast['humidity'] = data['main']['humidity']
-#             forecast['wind_speed'] = data['wind']['speed']
-#             forecasts.append(forecast)
-#             # Convert temperature from Celsius to Fahrenheit
-#             forecast['temperature_f'] = (forecast['temperature'] * 1.8) + 32
-
-#     context = {'forecasts': forecasts}
-#     return render(request, 'forecast.html', context)
-
-@login_required
-def forecast(request):
-    if request.method == 'POST':
-        city = request.POST.get('city')
-        user_weather = Location.objects.filter(user=request.user, location=city)
-        forecasts = []
-        for weather in user_weather:
-            location = weather.location
-            api_key = os.environ.get('API_KEY')
-            url = f"http://api.openweathermap.org/data/2.5/weather?q={location}&units=metric&appid={api_key}"
-            forecast_url = f"http://api.openweathermap.org/data/2.5/forecast?id=524901&appid={api_key}"
-            response = requests.get(url)
-            if response.status_code == 200:
-                data = response.json()
-                forecast = {}
-                forecast['date'] = datetime.now()
-                forecast['location'] = data['name']
-                forecast['description'] = data['weather'][0]['description']
-                forecast['temperature'] = data['main']['temp']
-                forecast['humidity'] = data['main']['humidity']
-                forecast['wind_speed'] = data['wind']['speed']
-                # Convert temperature from Celsius to Fahrenheit
-                forecast['temperature_f'] = (forecast['temperature'] * 1.8) + 32
-                forecasts.append(forecast)
-
-        context = {'forecasts': forecasts}
-        return render(request, 'forecast.html', context)
-    else:
-        return render(request, 'forecast.html', {})
