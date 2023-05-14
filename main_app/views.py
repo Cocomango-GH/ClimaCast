@@ -19,6 +19,7 @@ from .forms import LocationForm
 
 #new code 
 #path('', views.home, name='home'),
+@login_required
 def home(request):
     weather_data = {}
     if request.method == 'POST':
@@ -44,6 +45,11 @@ def home(request):
 
     return render(request, 'home.html', {'weather_data': weather_data})
 
+
+
+
+
+
 def about(request):
     return render(request, 'about.html')
 
@@ -66,6 +72,7 @@ def signup(request):
     form = UserCreationForm()
     context = {'form': form, 'error_message': error_message}
     return render(request, 'registration/signup.html', context)
+
 
 @login_required
 def forecast(request):
@@ -94,7 +101,6 @@ def forecast(request):
 
         context = {'forecasts': forecasts}
     return render(request, 'home.html', context)
-
 
 @login_required
 def location_create(request):
