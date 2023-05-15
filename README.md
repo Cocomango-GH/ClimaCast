@@ -97,10 +97,10 @@ div align="center">
  <h2>:chart_with_upwards_trend: Looking Forward (Roadmap) </h2>
 </div>
 
--[x]Display daily forecast
--[] Display 5 day forecast 
--[] Add favorite locations
--[] Display date for the location 
--[] Add photoss of weather 
--[] I want to be able to set my preferred temperature unit to Celsius or Fahrenheit
+- [x]Display daily forecast
+- [] Display 5 day forecast 
+- [] Add favorite locations
+- [] Display date for the location 
+- [] Add photoss of weather 
+- [] I want to be able to set my preferred temperature unit to Celsius or Fahrenheit
 
