@@ -1,9 +1,6 @@
 <div align="center">
 
-
-img of climast here 
 ![ClimaCast](https://github.com/Cocomango-GH/ClimaCast/assets/111953271/d24becd1-ac2e-4ca7-a376-c2ca6411bf5e)
-)
 
  Built by:[Sasha Amah](https://www.linkedin.com/in/sashaamah) 
 
@@ -42,7 +39,7 @@ ClimaCast is a Django-based web app that provides real-time weather forecasts an
 
 
 ## Auth Page
-![img](<img width="1726" alt="Screen Shot 2023-05-15 at 8 45 22 AM" src="https://github.com/Cocomango-GH/ClimaCast/assets/111953271/84cc34a6-1a98-480f-8466-d2e79e9440fd">)
+<img width="1726" alt="Screen Shot 2023-05-15 at 8 45 22 AM" src="https://github.com/Cocomango-GH/ClimaCast/assets/111953271/84cc34a6-1a98-480f-8466-d2e79e9440fd">
 
 
 
@@ -50,7 +47,7 @@ ClimaCast is a Django-based web app that provides real-time weather forecasts an
 
 
 ### Forecast Page
-![img](<img width="1726" alt="Screen Shot 2023-05-15 at 8 44 57 AM" src="https://github.com/Cocomango-GH/ClimaCast/assets/111953271/eee9281e-85bd-4024-ada1-534b5dc8e223">)
+<img width="1726" alt="Screen Shot 2023-05-15 at 8 44 57 AM" src="https://github.com/Cocomango-GH/ClimaCast/assets/111953271/eee9281e-85bd-4024-ada1-534b5dc8e223">
 
 
 
