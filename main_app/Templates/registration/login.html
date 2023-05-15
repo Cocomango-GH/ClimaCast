@@ -1,13 +1,58 @@
 {% extends 'base.html' %}
+
 {% block content %}
 
-<h1>Log In</h1>
+<div class="container mt-4">
+    <div class="text-center mb-4">
+        <img src="" alt="Logo" class="logo-img">
+    </div>
 
-<form method="POST" action="{% url 'login' %}">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="hidden" name="next" value="{{ next }}">
-    <button type="submit" class="btn">Log In</button>
-</form>
+    <h1 class="text-center">Log In</h1>
+
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form method="POST" action="{% url 'login' %}">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input type="hidden" name="next" value="{{ next }}">
+                <button type="submit" class="btn btn-primary btn-lg btn-block">Log In</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+    body {
+        background-color: #1414143f;
+    }
+    
+    .logo-img {
+        width: 200px;
+    }
+    
+    h1 {
+        color: #fff;
+        font-size: 30px;
+        margin-bottom: 30px;
+    }
+    
+    .form-control {
+        background-color: #333;
+        color: #fff;
+        border-color: #333;
+    }
+    
+    .btn-primary {
+        background-color: #e50914;
+        border-color: #e50914;
+        font-size: 20px;
+    }
+    
+    .btn-primary:hover {
+        background-color: #b8060c;
+        border-color: #b8060c;
+    }
+</style>
 
 {% endblock %}
+

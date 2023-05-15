@@ -1,14 +1,60 @@
 {% extends 'base.html' %}
+
 {% block content %}
 
-<h1>Sign Up</h1>
+<div class="container mt-4">
+    <h1 class="text-center mb-4">Sign Up</h1>
 
-<p class="red-text">{{ error_message }}</p>
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <p class="text-danger">{{ error_message }}</p>
 
-<form method="POST" action="{% url 'signup' %}">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <input type="submit" class="btn" value="Sign Up">
-</form>
+            <form method="POST" action="{% url 'signup' %}">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="id_username" class="form-label">Username</label>
+                    {{ form.username }}
+                </div>
+                <div class="mb-3">
+                    <label for="id_email" class="form-label">Email</label>
+                    {{ form.email }}
+                </div>
+                <div class="mb-3">
+                    <label for="id_password1" class="form-label">Password</label>
+                    {{ form.password1 }}
+                </div>
+                <div class="mb-3">
+                    <label for="id_password2" class="form-label">Confirm Password</label>
+                    {{ form.password2 }}
+                </div>
+                <button type="submit" class="btn btn-danger btn-lg btn-block">Get Started</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+    body {
+        background-color: #14141451;
+    }
+    
+    h1 {
+        color: #e50914;
+    }
+    
+    .form-label {
+        color: #e50914;
+    }
+    
+    .btn-danger {
+        background-color: #e50914;
+        border-color: #e50914;
+    }
+    
+    .btn-danger:hover {
+        background-color: #b8060c;
+        border-color: #b8060c;
+    }
+</style>
 
 {% endblock %}

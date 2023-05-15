@@ -3,12 +3,15 @@
 {% block content %}
     <h1>Welcome to ClimaCast!</h1>
     <h2>weather just got cooler</h2>
+    <div class="container-xl">
     <form method="POST" action="{% url 'home' %}">
         {% csrf_token %}
         <label for="location">Enter a city:</label>
         <input type="text" name="location" id="location" required>
         <button type="submit">Get Weather</button>
       </form>
+    </div>
+    <div class="container-xl">
       <h1>Weather Forecast for {{ weather_data.location }}</h1>
       <table>
         <thead>
@@ -21,6 +24,7 @@
             <p>Wind Speed: {{ weather_data.wind_speed }} m/s</p>
         </tr>
         </thead>
+        </div>
         <tbody>
     
           {% for forecast in weather_data.forecasts %}
@@ -35,12 +39,14 @@
         </tbody>
       </table>
       <!-- update not working  -->
+      <div class="container-fluid">
       <form method="POST">
         {% csrf_token %}
         <label for="location">Update your location:</label>
         <input type="text" name="location" id="location" value="{{ request.user.location.location }}" required>
         <button type="submit">Update</button>
     </form>
+    </div>
     
       <!-- delete added working don not change -->
       <form>
