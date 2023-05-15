@@ -36,10 +36,10 @@ ClimaCast is a Django-based web app that provides real-time weather forecasts an
 </div>
 
 ### Home Page
-![]()
+![img]()
 
 ### Authorization Page
-![]()
+![img]()
 
 
 
@@ -93,7 +93,7 @@ def home(request):
 ```
 #### explain code here 
 
-div align="center">
+<div align="center">
  <h2>:chart_with_upwards_trend: Looking Forward (Roadmap) </h2>
 </div>
 
