@@ -12,18 +12,6 @@ class Location(models.Model):
     wind_speed = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
     last_updated = models.DateTimeField(null=True, blank=True)
 
-
     def __str__(self):
         return self.location
 
-
-#add model tag 1
-class Tag(models.Model):
-    name = models.CharField(max_length=50)
-
-    def __str__(self):
-        return self.name
-    
-class LocationTag(models.Model):
-    location = models.ForeignKey(Location, on_delete=models.CASCADE)
-    tag = models.ForeignKey(Tag, on_delete=models.CASCADE)

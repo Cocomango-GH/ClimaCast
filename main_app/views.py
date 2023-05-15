@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import DetailView
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseForbidden
 from django.contrib.auth.models import User
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
@@ -39,7 +39,6 @@ def home(request):
             location = Location.objects.create(user=request.user, location=location, temperature=weather_data['temperature'], humidity=weather_data['humidity'], wind_speed=weather_data['wind_speed'], last_updated=datetime.now())
             
             # Redirect to the forecast page with location data in the URL
-            # return redirect(f'/home/{location.id}/')
         else:
             weather_data['error'] = f'Error getting weather data for {location}. Please try again.'
 
@@ -122,3 +121,4 @@ def location_delete(request, pk):
     if request.user == location.user:
         location.delete()
     return redirect('home')
+

@@ -34,5 +34,10 @@
           {% endfor %}
         </tbody>
       </table>
+      <!-- delte added -->
+      <form>
+        {% csrf_token %}
+        <button type="submit">Delete Location</button>
+    </form>
 {% endblock %}
 
