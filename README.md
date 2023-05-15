@@ -2,7 +2,7 @@
 
 
 img of climast here 
-![ClimaCast]()
+![ClimaCast](https://imgur.com/a/sQoDdaQ)
 
  Built by:[Sasha Amah](https://www.linkedin.com/in/sashaamah) 
 
@@ -35,11 +35,14 @@ ClimaCast is a Django-based web app that provides real-time weather forecasts an
 
 </div>
 
-### Home Page
-![img]()
+### gif 
+![gif](https://imgur.com/a/xaWqb5j)
 
-### Authorization Page
-![img]()
+## Auth Page
+![img](https://imgur.com/Y4h1mwG)
+
+### Forecast Page
+![img](https://imgur.com/6th0zjo)
 
 
 
