@@ -35,7 +35,7 @@ ClimaCast is a Django-based web app that provides real-time weather forecasts an
 </div>
 
 ### gif 
-![gif](https://github.com/Cocomango-GH/ClimaCast/assets/111953271/291a6520-e149-488d-bafe-ac31920d5b53)
+https://github.com/Cocomango-GH/ClimaCast/assets/111953271/291a6520-e149-488d-bafe-ac31920d5b53
 
 
 ## Auth Page
