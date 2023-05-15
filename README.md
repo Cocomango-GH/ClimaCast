@@ -99,7 +99,6 @@ def home(request):
     return render(request, 'home.html', {'weather_data': weather_data})
 
 ```
-#### explain code here 
 
 <div align="center">
  <h2>:chart_with_upwards_trend: Looking Forward (Roadmap) </h2>
