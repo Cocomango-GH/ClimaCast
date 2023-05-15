@@ -1,57 +1,132 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>Welcome to ClimaCast!</h1>
-    <h2>weather just got cooler</h2>
-    <div class="container-xl">
-    <form method="POST" action="{% url 'home' %}">
-        {% csrf_token %}
-        <label for="location">Enter a city:</label>
-        <input type="text" name="location" id="location" required>
-        <button type="submit">Get Weather</button>
-      </form>
-    </div>
-    <div class="container-xl">
-      <h1>Weather Forecast for {{ weather_data.location }}</h1>
-      <table>
-        <thead>
-          <tr>
-            <P>Date: {{weather_data.date}}</P>
-            <p>Location: {{ weather_data.location }}</p>
-            <p>Description: {{ weather_data.description }}</p>
-            <p>Temperature: {{ weather_data.temperature }}&deg;C</p>
-            <p>Humidity: {{ weather_data.humidity }}%</p>
-            <p>Wind Speed: {{ weather_data.wind_speed }} m/s</p>
-        </tr>
-        </thead>
-        </div>
-        <tbody>
-    
-          {% for forecast in weather_data.forecasts %}
-            <tr>
-              <td>date: {{ forecast.date }}</td>
-              <td>Description: {{ forecast.description }}</td>
-              <td>Temperature: {{ forecast.temperature }}</td>
-              <td>Humiidity: {{ forecast.humidity }}</td>
-              <td>Wind Speed:{{ forecast.wind_speed }}</td>
-            </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-      <!-- update not working  -->
-      <div class="container-fluid">
-      <form method="POST">
-        {% csrf_token %}
-        <label for="location">Update your location:</label>
-        <input type="text" name="location" id="location" value="{{ request.user.location.location }}" required>
-        <button type="submit">Update</button>
-    </form>
-    </div>
-    
-      <!-- delete added working don not change -->
-      <form>
-        {% csrf_token %}
-        <button type="submit">Delete Location</button>
-    </form>
-{% endblock %}
 
+    <div class="container">
+        <div class="text-center">
+            <h1 class="display-4">Welcome to ClimaCast!</h1>
+            <h2 class="mb-4">Weather just got cooler</h2>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <form method="POST" action="{% url 'home' %}" class="mb-4">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="location" class="form-label">Enter a city:</label>
+                        <input type="text" name="location" id="location" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Get Weather</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="container-xl">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h1 class="card-title">Weather Forecast for {{ weather_data.location }}</h1>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th colspan="2">
+                                        <h5>Date: {{ weather_data.date }}</h5>
+                                        <h5>Location: {{ weather_data.location }}</h5>
+                                        <h5>Description: {{ weather_data.description }}</h5>
+                                        <h5>Temperature: {{ weather_data.temperature }}&deg;C</h5>
+                                        <h5>Humidity: {{ weather_data.humidity }}%</h5>
+                                        <h5>Wind Speed: {{ weather_data.wind_speed }} m/s</h5>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for forecast in weather_data.forecasts %}
+                                    <tr>
+                                        <td>Date: {{ forecast.date }}</td>
+                                        <td>
+                                            <h6>Description: {{ forecast.description }}</h6>
+                                            <h6>Temperature: {{ forecast.temperature }}</h6>
+                                            <h6>Humidity: {{ forecast.humidity }}</h6>
+                                            <h6>Wind Speed: {{ forecast.wind_speed }}</h6>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="location" class="form-label">Update your location:</label>
+                            <input type="text" name="location" id="location" value="{{ request.user.location.location }}" class="form-control" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Update</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <form>
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">Delete Location</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <style>
+        body {
+            background-color:  rgb(21, 101, 206);
+        }
+        
+        h1 {
+            color: white;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+        
+        .container {
+            max-width: 600px;
+        }
+        
+        .card {
+            background-color: rgb(173, 218, 236);
+            border: none;
+            border-radius: 0;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.589);
+        }
+        
+        .card-body {
+            padding: 2rem;
+        }
+        
+        .text-danger {
+            color: rgb(21, 101, 206);
+            margin-bottom: 1rem;
+        }
+        
+        .btn-primary {
+            background-color: rgb(21, 101, 206);
+            border-color: rgb(21, 101, 206);
+            font-weight: bold;
+        }
+        
+        .btn-primary:hover {
+            background-color: rgb(21, 101, 206);
+            border-color: rgb(21, 101, 206);
+            opacity: 0.8;
+        }
+        
+        @media (max-width: 576px) {
+            h1 {
+                font-size: 1.5rem;
+            }
+            
+            .card-body {
+                padding: 1rem;
+            }
+        }
+    </style>
+{% endblock %}

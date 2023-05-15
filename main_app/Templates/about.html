@@ -1,9 +1,36 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h1>About ClimaCast</h1>
-  <hr />
-  <p>Where weaather just got a little cooler!</p>
-  <footer>All Rights Reserved, &copy; 2023 ClimaCast</footer>  
-{% endblock %}
+  <div class="container-fluid">
+    <div class="jumbotron jumbotron-split text-center">
+      <h1 class="display-4">About ClimaCast</h1>
+      <hr class="my-4">
+      <p class="lead">Where weather just got a little cooler!</p>
+    </div>
+    <div class="content-split">
+      <div class="container">
+        <p>Here is the content for the lower part of the split page.</p>
+      </div>
+    </div>
+    <footer class="text-center">
+      <p class="text-muted">All Rights Reserved, &copy; 2023 ClimaCast</p>
+    </footer>
+  </div>
+
+  <style>
+    .jumbotron-split {
+      background-image: url('path/to/your/image.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      padding: 100px 0;
+      margin-bottom: 0;
+    }
   
+    .content-split {
+      background-color: #f8f9fa;
+      padding: 50px 0;
+    }
+  </style>
+{% endblock %}
+

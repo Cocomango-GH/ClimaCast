@@ -1,16 +1,16 @@
 {% extends 'base.html' %}
+{% load static %} 
 
 {% block content %}
 
 <div class="container mt-4">
-    <div class="text-center mb-4">
-        <img src="" alt="Logo" class="logo-img">
+    <div class="image-container d-flex justify-content-center">
+        <img src="{% static '3.png' %}" alt="Image Description" class="img-fluid">
     </div>
+    <div class="card">
+        <div class="card-body">
+            <h1 class="text-center">Log In</h1>
 
-    <h1 class="text-center">Log In</h1>
-
-    <div class="row justify-content-center">
-        <div class="col-md-6">
             <form method="POST" action="{% url 'login' %}">
                 {% csrf_token %}
                 {{ form.as_p }}
@@ -23,7 +23,7 @@
 
 <style>
     body {
-        background-color: #1414143f;
+        background-color:   rgb(21, 101, 206);
     }
     
     .logo-img {
@@ -35,24 +35,41 @@
         font-size: 30px;
         margin-bottom: 30px;
     }
+    .bg-image {
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat; 
+    }
+    .card {
+        background-color: rgb(173, 218, 236);
+        border: none;
+        border-radius: 0;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.589);
+    }
+    
+    .card-body {
+        padding: 2rem;
+    }
     
     .form-control {
-        background-color: #333;
+        background-color: rgb(21, 101, 206);
         color: #fff;
-        border-color: #333;
+        border-color: rgb(21, 101, 206);
     }
     
     .btn-primary {
-        background-color: #e50914;
-        border-color: #e50914;
+        background-color:  rgb(21, 101, 206);
+        border-color:  #097be584;
         font-size: 20px;
     }
     
     .btn-primary:hover {
-        background-color: #b8060c;
-        border-color: #b8060c;
+        background-color: #097be584 ;
+        border-color:  rgb(21, 101, 206);
+    }
+    .transparent-image {
+        opacity: 0.5;
     }
 </style>
 
 {% endblock %}
-

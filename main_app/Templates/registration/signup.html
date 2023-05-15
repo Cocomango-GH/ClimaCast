@@ -7,53 +7,72 @@
 
     <div class="row justify-content-center">
         <div class="col-md-6">
-            <p class="text-danger">{{ error_message }}</p>
+            <div class="card">
+                <div class="card-body">
+                    <p class="text-danger">{{ error_message }}</p>
 
-            <form method="POST" action="{% url 'signup' %}">
-                {% csrf_token %}
-                <div class="mb-3">
-                    <label for="id_username" class="form-label">Username</label>
-                    {{ form.username }}
+                    <form method="POST" action="{% url 'signup' %}">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button type="submit" class="btn btn-primary btn-block">Sign Up</button>
+                    </form>
                 </div>
-                <div class="mb-3">
-                    <label for="id_email" class="form-label">Email</label>
-                    {{ form.email }}
-                </div>
-                <div class="mb-3">
-                    <label for="id_password1" class="form-label">Password</label>
-                    {{ form.password1 }}
-                </div>
-                <div class="mb-3">
-                    <label for="id_password2" class="form-label">Confirm Password</label>
-                    {{ form.password2 }}
-                </div>
-                <button type="submit" class="btn btn-danger btn-lg btn-block">Get Started</button>
-            </form>
+            </div>
         </div>
     </div>
 </div>
 
 <style>
     body {
-        background-color: #14141451;
+        background-color:  rgb(21, 101, 206);
     }
     
     h1 {
-        color: #e5c409;
+        color: white;
+        font-size: 2rem;
+        font-weight: bold;
     }
     
-    .form-label {
-        color: #e5da09;
+    .container {
+        max-width: 600px;
     }
     
-    .btn-danger {
-        background-color:  #e5c409;
-        border-color:  #e5c409;
+    .card {
+        background-color: rgb(173, 218, 236);
+        border: none;
+        border-radius: 0;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.589);
     }
     
-    .btn-danger:hover {
-        background-color: #b8060c;
-        border-color: #b8060c;
+    .card-body {
+        padding: 2rem;
+    }
+    
+    .text-danger {
+        color: rgb(21, 101, 206);
+        margin-bottom: 1rem;
+    }
+    
+    .btn-primary {
+        background-color: rgb(21, 101, 206);
+        border-color: rgb(21, 101, 206);
+        font-weight: bold;
+    }
+    
+    .btn-primary:hover {
+        background-color: rgb(21, 101, 206);
+        border-color: rgb(21, 101, 206);
+        opacity: 0.8;
+    }
+    
+    @media (max-width: 576px) {
+        h1 {
+            font-size: 1.5rem;
+        }
+        
+        .card-body {
+            padding: 1rem;
+        }
     }
 </style>
 
