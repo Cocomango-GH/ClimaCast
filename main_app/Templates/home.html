@@ -34,7 +34,15 @@
           {% endfor %}
         </tbody>
       </table>
-      <!-- delte added -->
+      <!-- update not working  -->
+      <form method="POST">
+        {% csrf_token %}
+        <label for="location">Update your location:</label>
+        <input type="text" name="location" id="location" value="{{ request.user.location.location }}" required>
+        <button type="submit">Update</button>
+    </form>
+    
+      <!-- delete added working don not change -->
       <form>
         {% csrf_token %}
         <button type="submit">Delete Location</button>

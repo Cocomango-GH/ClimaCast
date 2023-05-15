@@ -37,7 +37,6 @@ def home(request):
             print(weather_data)
             # Save the weather data to the Location model
             location = Location.objects.create(user=request.user, location=location, temperature=weather_data['temperature'], humidity=weather_data['humidity'], wind_speed=weather_data['wind_speed'], last_updated=datetime.now())
-            
             # Redirect to the forecast page with location data in the URL
         else:
             weather_data['error'] = f'Error getting weather data for {location}. Please try again.'
@@ -121,4 +120,26 @@ def location_delete(request, pk):
     if request.user == location.user:
         location.delete()
     return redirect('home')
+
+
+
+# @login_required
+# def location_update(request, pk):
+#     location = Location.objects.get(pk=pk)
+#     if request.user == location.user:
+#         location.update()
+#     return redirect('home')
+
+@login_required
+def location_update(request):
+    if request.method == 'POST':
+        location = request.POST.get('location')
+        user_location = Location.objects.filter(user=request.user).first()
+        if user_location:
+            user_location.location = location
+            user_location.last_updated = datetime.now()
+            user_location.save()
+        else:
+            Location.objects.create(user=request.user, location=location, last_updated=datetime.now())
+        return redirect('home')
 
