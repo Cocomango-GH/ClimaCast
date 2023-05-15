@@ -2,7 +2,8 @@
 
 
 img of climast here 
-![ClimaCast](https://imgur.com/a/sQoDdaQ)
+![ClimaCast](https://github.com/Cocomango-GH/ClimaCast/assets/111953271/d24becd1-ac2e-4ca7-a376-c2ca6411bf5e)
+)
 
  Built by:[Sasha Amah](https://www.linkedin.com/in/sashaamah) 
 
@@ -26,6 +27,7 @@ img of climast here
 ClimaCast is a Django-based web app that provides real-time weather forecasts and climate data for global locations. Users can easily search for weather information for any location and view details such as temperature, precipitation, wind speed, humidity, and more. Additionally, ClimaCast features an alert system that notifies users of severe weather conditions in their area. Its user-friendly interface, comprehensive data analysis, and real-time updates make ClimaCast a valuable tool for individuals, businesses, and researchers alike.
 
 
+
 ## :link: Associated Links:
 
 [Trello](https://trello.com/b/yNp7Ak8P/kanban-template) 
@@ -36,13 +38,19 @@ ClimaCast is a Django-based web app that provides real-time weather forecasts an
 </div>
 
 ### gif 
-![gif](https://imgur.com/a/xaWqb5j)
+![gif](https://github.com/Cocomango-GH/ClimaCast/assets/111953271/291a6520-e149-488d-bafe-ac31920d5b53)
+
 
 ## Auth Page
-![img](https://imgur.com/Y4h1mwG)
+![img](<img width="1726" alt="Screen Shot 2023-05-15 at 8 45 22 AM" src="https://github.com/Cocomango-GH/ClimaCast/assets/111953271/84cc34a6-1a98-480f-8466-d2e79e9440fd">)
+
+
+
+
+
 
 ### Forecast Page
-![img](https://imgur.com/6th0zjo)
+![img](<img width="1726" alt="Screen Shot 2023-05-15 at 8 44 57 AM" src="https://github.com/Cocomango-GH/ClimaCast/assets/111953271/eee9281e-85bd-4024-ada1-534b5dc8e223">)
 
 
 
