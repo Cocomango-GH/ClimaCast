@@ -1,1 +1,1 @@
-web: gunicorn ClimaCast.wsgi
+web: gunicorn ClimaCast.wsgi --log-file -
