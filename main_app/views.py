@@ -19,7 +19,7 @@ from .forms import LocationForm
 
 #new code 
 #path('', views.home, name='home'),
-@login_required
+# @login_required
 def home(request):
     weather_data = {}
     if request.method == 'POST':
