@@ -26,8 +26,9 @@ def home(request):
         location = request.POST['location']
         print(location)
         api_key = os.environ['API_KEY']
-        url = f'http://api.openweathermap.org/data/2.5/weather?q={location}&units=metric&appid={api_key}'
+        url = f'http://api.openweathermap.org/data/2.5/weather?q=London&units=metric&appid={api_key}'
         response = requests.get(url)
+        print(response)
         if response.status_code == 200:
             data = response.json()
             weather_data['location'] = data['name']
@@ -36,10 +37,14 @@ def home(request):
             weather_data['humidity'] = data['main']['humidity']
             weather_data['wind_speed'] = data['wind']['speed']
             print(weather_data)
+            print('success')
+            
             # Save the weather data to the Location model
             location = Location.objects.create(user=request.user, location=location, temperature=weather_data['temperature'], humidity=weather_data['humidity'], wind_speed=weather_data['wind_speed'], last_updated=datetime.now())
             # Redirect to the forecast page with location data in the URL
+
         else:
+            print('did not work')
             weather_data['error'] = f'Error getting weather data for {location}. Please try again.'
 
     return render(request, 'home.html', {'weather_data': weather_data})
