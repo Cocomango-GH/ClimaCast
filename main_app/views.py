@@ -104,12 +104,6 @@ def location_delete(request, pk):
 
 
 
-# @login_required
-# def location_update(request, pk):
-#     location = Location.objects.get(pk=pk)
-#     if request.user == location.user:
-#         location.update()
-#     return redirect('home')
 
 @login_required
 def location_update(request):
