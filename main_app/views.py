@@ -23,7 +23,8 @@ from .forms import LocationForm
 def home(request):
     weather_data = {}
     if request.method == 'POST':
-        location = request.POST.get('location')
+        location = request.POST['location']
+        print(location)
         api_key = os.environ['API_KEY']
         url = f'http://api.openweathermap.org/data/2.5/weather?q={location}&units=metric&appid={api_key}'
         response = requests.get(url)
