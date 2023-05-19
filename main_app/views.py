@@ -26,7 +26,7 @@ def home(request):
         location = request.POST['location']
         print(location)
         api_key = os.environ['API_KEY']
-        url = f'http://api.openweathermap.org/data/2.5/weather?q=London&units=metric&appid={api_key}'
+        url = f'http://api.openweathermap.org/data/2.5/weather?q={location}&units=metric&appid={api_key}'
         response = requests.get(url)
         print(response)
         print(response.status_code)
