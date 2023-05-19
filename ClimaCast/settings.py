@@ -62,7 +62,7 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             # #chat saidputthis to acesse forecast.html
-             os.path.join(BASE_DIR, 'main_app', 'templates'),
+             os.path.join(BASE_DIR, 'main_app', 'Templates'),
         ],
         'APP_DIRS': True,
         'OPTIONS': {
