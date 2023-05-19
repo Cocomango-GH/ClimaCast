@@ -85,7 +85,7 @@ WSGI_APPLICATION = 'ClimaCast.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'Cocomango-GH/ClimaCast',  
+        'NAME': 'Cocomango-GH/clima-cast',  
         'USER': 'Cocomango-GH',
         'PASSWORD': os.environ['DB_PASSWORD'],
         'HOST': 'db.bit.io', 
