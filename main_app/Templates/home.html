@@ -9,7 +9,7 @@
         </div>
         <div class="row justify-content-center">
             <div class="col-md-6">
-                <form method="POST" action="{% url 'home' %}" class="mb-4">
+                <form method="POST" action="{% url 'weather' %}" class="mb-4">
                     {% csrf_token %}
                     <div class="form-group">
                         <label for="location" class="form-label">Enter a city:</label>
