@@ -29,7 +29,8 @@ def home(request):
         url = f'http://api.openweathermap.org/data/2.5/weather?q=London&units=metric&appid={api_key}'
         response = requests.get(url)
         print(response)
-        if response.status_code == 200:
+        print(response.status_code)
+        if response.status_code:
             data = response.json()
             weather_data['location'] = data['name']
             weather_data['description'] = data['weather'][0]['description']
