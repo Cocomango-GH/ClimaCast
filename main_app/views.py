@@ -63,7 +63,7 @@ def about(request):
 @login_required
 def forecast(request):
     if request.method == 'POST':
-        location = request.POST.get('location')
+        location = request.POST['location']
         user_weather = Location.objects.filter(user=request.user, location=location)
 
         forecasts = []
@@ -72,7 +72,8 @@ def forecast(request):
             api_key = os.environ.get('API_KEY')
             url = f"http://api.openweathermap.org/data/2.5/weather?q={location}&units=metric&appid={api_key}"
             response = requests.get(url)
-            if response.status_code == 200:
+            print('im here ')
+            if response.status_code:
                 data = response.json()
                 forecast = {}
                 forecast['date'] = datetime.now()
