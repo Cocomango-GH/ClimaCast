@@ -18,7 +18,7 @@
 
 **_Click the following link to be redirected to the live version of the code!_** 
 
-[ClimaCast]()
+[ClimaCast](https://climacast.herokuapp.com/)
 
 ### Description:
 ClimaCast is a Django-based web app that provides real-time weather forecasts and climate data for global locations. Users can easily search for weather information for any location and view details such as temperature, precipitation, wind speed, humidity, and more. Additionally, ClimaCast features an alert system that notifies users of severe weather conditions in their area. Its user-friendly interface, comprehensive data analysis, and real-time updates make ClimaCast a valuable tool for individuals, businesses, and researchers alike.
